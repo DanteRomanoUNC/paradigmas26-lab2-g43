@@ -35,7 +35,7 @@ object Analyzer {
    *                  )
    */
   def detectEntities(text: String, dictionary: List[NamedEntity]): List[NamedEntity] = {
-    ???
+      dictionary.filter(entity => text.contains(entity.text))
   }
 
   /**
@@ -60,6 +60,7 @@ object Analyzer {
    *                 )
    */
   def countByType(entities: List[NamedEntity]): Map[String, Int] = {
-    ???
+    entities.groupBy(entity => entity.entityType)
+      .map((tipo, grupo) => (tipo, grupo.size))
   }
 }
