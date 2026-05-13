@@ -31,7 +31,15 @@ object Formatters {
    *   Si no se detectaron entidades, mostrar un mensaje indicándolo.
    */
   def formatNERResult(postTitle: String, entities: List[NamedEntity]): String = {
-    ???
+    val cuerpo = entities match {
+      case Nil => "  (sin entidades detectadas)"  // lista vacia (mas expresivo que usar if(entities.isEmpty)-else)
+      case _   =>                                 // lista con al menos 1 elemento
+        "Entidades detectadas:\n" +
+        entities.map(e => s"  ${e.describe}").mkString("\n")
+    }
+
+    s"""Post: "$postTitle"
+      |$cuerpo""".stripMargin
   }
 
   /**
@@ -51,6 +59,11 @@ object Formatters {
    *     University: 2
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
-    ???
+    val lineas = counts.toList                                      // convierte a lista de tuplas
+                      .sortBy((tipo, cantidad) => -cantidad)        // ordena por cantidad de mayor a menor (negativo para orden descendente)
+                      .map((tipo, cantidad) => s"$tipo: $cantidad") // transforma cada tupla a una linea de texto
+                      .mkString("\n")                               // une todas las lineas con salto de linea
+
+    s"=== Estadísticas de entidades ===\n$lineas"
   }
 }
