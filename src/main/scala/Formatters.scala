@@ -60,8 +60,8 @@ object Formatters {
    */
   def formatEntityStats(counts: Map[String, Int]): String = {
     val lineas = counts.toList                                      // convierte a lista de tuplas
-                      .sortBy((tipo, cantidad) => -cantidad)        // ordena por cantidad de mayor a menor (negativo para orden descendente)
-                      .map((tipo, cantidad) => s"$tipo: $cantidad") // transforma cada tupla a una linea de texto
+                      .sortBy { case (tipo, cantidad) => -cantidad }// ordena por cantidad de mayor a menor (negativo para orden descendente)
+                      .map { case (tipo, cantidad) => s"$tipo: $cantidad" }// transforma cada tupla a una linea de texto
                       .mkString("\n")                               // une todas las lineas con salto de linea
 
     s"=== Estadísticas de entidades ===\n$lineas"
